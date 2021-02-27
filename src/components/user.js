@@ -9,13 +9,20 @@ import {
   Row,
   Col,
 } from "antd";
+
+import { useStoreActions, useStoreState } from "easy-peasy";
 const { Text } = Typography;
-const User = ({ userKey }) => {
+
+const User = () => {
+  const userKey = useStoreState((state) => state.model.userKey);
+  const sendLoadDataRequest = useStoreActions(
+    (actions) => actions.model.sendLoadDataRequest
+  );
   if (userKey !== null && userKey !== undefined && userKey !== "") {
     return (
       <Button
         onClick={() => {
-          console.log("Helo World!!");
+          sendLoadDataRequest(userKey);
         }}
       >
         Load Your Data
