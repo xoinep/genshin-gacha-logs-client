@@ -1,25 +1,25 @@
 {
   "files": {
     "main.css": "/genshin-gacha-logs-client/static/css/main.1d3b6f05.chunk.css",
-    "main.js": "/genshin-gacha-logs-client/static/js/main.07a09514.chunk.js",
-    "main.js.map": "/genshin-gacha-logs-client/static/js/main.07a09514.chunk.js.map",
-    "runtime-main.js": "/genshin-gacha-logs-client/static/js/runtime-main.2bacc083.js",
-    "runtime-main.js.map": "/genshin-gacha-logs-client/static/js/runtime-main.2bacc083.js.map",
+    "main.js": "/genshin-gacha-logs-client/static/js/main.4d86de9b.chunk.js",
+    "main.js.map": "/genshin-gacha-logs-client/static/js/main.4d86de9b.chunk.js.map",
+    "runtime-main.js": "/genshin-gacha-logs-client/static/js/runtime-main.c4286d93.js",
+    "runtime-main.js.map": "/genshin-gacha-logs-client/static/js/runtime-main.c4286d93.js.map",
     "static/css/2.1e58ee36.chunk.css": "/genshin-gacha-logs-client/static/css/2.1e58ee36.chunk.css",
-    "static/js/2.8c01f653.chunk.js": "/genshin-gacha-logs-client/static/js/2.8c01f653.chunk.js",
-    "static/js/2.8c01f653.chunk.js.map": "/genshin-gacha-logs-client/static/js/2.8c01f653.chunk.js.map",
-    "static/js/3.9539ffda.chunk.js": "/genshin-gacha-logs-client/static/js/3.9539ffda.chunk.js",
-    "static/js/3.9539ffda.chunk.js.map": "/genshin-gacha-logs-client/static/js/3.9539ffda.chunk.js.map",
+    "static/js/2.2dcb43c3.chunk.js": "/genshin-gacha-logs-client/static/js/2.2dcb43c3.chunk.js",
+    "static/js/2.2dcb43c3.chunk.js.map": "/genshin-gacha-logs-client/static/js/2.2dcb43c3.chunk.js.map",
+    "static/js/3.8e8bc952.chunk.js": "/genshin-gacha-logs-client/static/js/3.8e8bc952.chunk.js",
+    "static/js/3.8e8bc952.chunk.js.map": "/genshin-gacha-logs-client/static/js/3.8e8bc952.chunk.js.map",
     "index.html": "/genshin-gacha-logs-client/index.html",
     "static/css/2.1e58ee36.chunk.css.map": "/genshin-gacha-logs-client/static/css/2.1e58ee36.chunk.css.map",
     "static/css/main.1d3b6f05.chunk.css.map": "/genshin-gacha-logs-client/static/css/main.1d3b6f05.chunk.css.map",
-    "static/js/2.8c01f653.chunk.js.LICENSE.txt": "/genshin-gacha-logs-client/static/js/2.8c01f653.chunk.js.LICENSE.txt"
+    "static/js/2.2dcb43c3.chunk.js.LICENSE.txt": "/genshin-gacha-logs-client/static/js/2.2dcb43c3.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.2bacc083.js",
+    "static/js/runtime-main.c4286d93.js",
     "static/css/2.1e58ee36.chunk.css",
-    "static/js/2.8c01f653.chunk.js",
+    "static/js/2.2dcb43c3.chunk.js",
     "static/css/main.1d3b6f05.chunk.css",
-    "static/js/main.07a09514.chunk.js"
+    "static/js/main.4d86de9b.chunk.js"
   ]
 }
