@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Layout,
   Menu,
   Space,
   Upload,
   Button,
-  Typography,
   Row,
   Col,
   Divider,
@@ -18,11 +17,8 @@ import { useStoreState, useStoreActions } from "easy-peasy";
 import Wish from "../screens/wish";
 import DemoRadar from "../components/charts";
 const { Header, Content, Footer } = Layout;
-const { Title, Paragraph, Text, Link } = Typography;
 
 const HomeScreen = () => {
-  // const [userKey, setUserKey] = useState("");
-  const userKey = useStoreState((state) => state.model.userKey);
   const setUserKey = useStoreActions((actions) => actions.model.setUserKey);
   const loading = useStoreState((state) => state.model.loading);
   return (

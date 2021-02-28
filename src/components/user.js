@@ -1,17 +1,7 @@
-import React, { useState } from "react";
-import {
-  Layout,
-  Menu,
-  Space,
-  Upload,
-  Button,
-  Typography,
-  Row,
-  Col,
-} from "antd";
+import React from "react";
+import { Button } from "antd";
 
 import { useStoreActions, useStoreState } from "easy-peasy";
-const { Text } = Typography;
 
 const User = () => {
   const userKey = useStoreState((state) => state.model.userKey);

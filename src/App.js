@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "antd";
 import "./App.css";
 import { StoreProvider } from "easy-peasy";
 import store from "./store/index";

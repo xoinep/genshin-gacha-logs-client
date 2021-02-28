@@ -1,21 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useStoreState } from "easy-peasy";
 import { Pie, Column } from "@ant-design/charts";
-import {
-  Layout,
-  Menu,
-  Space,
-  Upload,
-  Button,
-  Typography,
-  Row,
-  Col,
-  Divider,
-  Spin,
-  Card,
-} from "antd";
-const { Header, Content, Footer } = Layout;
-const { Title, Paragraph, Text, Link } = Typography;
+import { Typography, Row, Col, Card } from "antd";
+const { Text } = Typography;
 
 const Charts = () => {
   const gachaLogs = useStoreState((state) => state.model.gachaLogs);

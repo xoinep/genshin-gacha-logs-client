@@ -1,6 +1,6 @@
-import { Typography, Divider, Row, Col, Space } from "antd";
+import { Typography, Row, Col } from "antd";
 
-const { Title, Paragraph, Text, Link } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 const Introduction = () => {
   return (
