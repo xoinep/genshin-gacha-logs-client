@@ -16,6 +16,7 @@ import Introduction from "./intro";
 import User from "../components/user";
 import { useStoreState, useStoreActions } from "easy-peasy";
 import Wish from "../screens/wish";
+import DemoRadar from "../components/charts";
 const { Header, Content, Footer } = Layout;
 const { Title, Paragraph, Text, Link } = Typography;
 
@@ -71,6 +72,8 @@ const HomeScreen = () => {
             <User />
             <Divider plain> Wish section</Divider>
             <Wish />
+            <Divider plain> Charts section</Divider>
+            <DemoRadar />
           </Content>
           <Footer></Footer>
         </Space>
