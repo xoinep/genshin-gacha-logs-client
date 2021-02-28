@@ -43,11 +43,6 @@ const RenderTableResult = ({ gachaLogs }) => {
       key: "gacha_type",
     },
     {
-      title: "Item Id",
-      dataIndex: "item_id",
-      key: "item_id",
-    },
-    {
       title: "Count",
       dataIndex: "count",
       key: "count",

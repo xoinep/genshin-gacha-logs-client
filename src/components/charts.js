@@ -12,6 +12,7 @@ import {
   Col,
   Divider,
   Spin,
+  Card,
 } from "antd";
 const { Header, Content, Footer } = Layout;
 const { Title, Paragraph, Text, Link } = Typography;
@@ -50,21 +51,49 @@ const Charts = () => {
       sales: sortByWeaponName[item],
     });
   }
-
-  return (
-    <>
-      <Text>
-        Tổng số lượt quay: {totalGachaLogs} - Tương đương với{" "}
-        {totalGachaLogs * 160} Nguyên thạch
-      </Text>
-      <DemoRadar
-        gachaLogs={gachaLogs}
-        totalGachaLogs={totalGachaLogs}
-      ></DemoRadar>
-      <ItemRateColumn data={sortByCharacterNameList}></ItemRateColumn>
-      <ItemRateColumn data={sortByWeaponNameList}></ItemRateColumn>
-    </>
-  );
+  if (gachaLogs.length > 0) {
+    return (
+      <>
+        <Text>
+          Tổng số lượt quay: {totalGachaLogs} - Tương đương với{" "}
+          {totalGachaLogs * 160} Nguyên thạch
+        </Text>
+        <Row>
+          <Col span={12}>
+            <Card title="Tỷ lệ rớt đồ">
+              <DemoRadar
+                gachaLogs={gachaLogs}
+                totalGachaLogs={totalGachaLogs}
+              ></DemoRadar>
+            </Card>
+          </Col>
+          <Col span={12}>
+            {" "}
+            <Card title="Tỷ lệ nhân vật">
+              <ItemRateColumn
+                data={sortByCharacterNameList}
+                color={"green"}
+              ></ItemRateColumn>
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={12}>
+            {" "}
+            <Card title="Tỷ lệ vũ khí">
+              <ItemRateColumn
+                data={sortByWeaponNameList}
+                color={"red"}
+              ></ItemRateColumn>
+            </Card>
+          </Col>
+          <Col span={12}></Col>
+        </Row>
+      </>
+    );
+  } else {
+    return <></>;
+  }
 };
 
 const DemoRadar = ({ gachaLogs, totalGachaLogs }) => {
@@ -109,11 +138,11 @@ const DemoRadar = ({ gachaLogs, totalGachaLogs }) => {
     label: {
       type: "inner",
       offset: "-30%",
-      content: function content(_ref) {
-        console.log(_ref);
-        var percent = _ref.percent;
-        return "".concat((percent * 100).toFixed(2), "%");
-      },
+      //   content: function content(_ref) {
+      //     console.log(_ref);
+      //     var percent = _ref.percent;
+      //     return "".concat((percent * 100).toFixed(2), "%");
+      //   },
       style: {
         fontSize: 14,
         textAlign: "center",
@@ -129,7 +158,7 @@ const DemoRadar = ({ gachaLogs, totalGachaLogs }) => {
   }
 };
 
-const ItemRateColumn = ({ data }) => {
+const ItemRateColumn = ({ data, color }) => {
   var config = {
     data: data,
     xField: "type",
@@ -143,7 +172,20 @@ const ItemRateColumn = ({ data }) => {
     },
     meta: {
       type: { alias: "item" },
-      sales: { alias: "count" },
+      sales: { alias: "Số luợng" },
+    },
+    columnStyle: {
+      fill: color,
+      fillOpacity: 0.5,
+      stroke: "black",
+      lineWidth: 1,
+      lineDash: [4, 5],
+      strokeOpacity: 0.7,
+      shadowColor: "black",
+      shadowBlur: 10,
+      shadowOffsetX: 5,
+      shadowOffsetY: 5,
+      cursor: "pointer",
     },
   };
   return <Column {...config} />;
