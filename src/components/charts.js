@@ -2,6 +2,7 @@ import React from "react";
 import { useStoreState } from "easy-peasy";
 import { Pie, Column } from "@ant-design/charts";
 import { Typography, Row, Col, Card } from "antd";
+
 const { Text } = Typography;
 
 const Charts = () => {
@@ -11,6 +12,11 @@ const Charts = () => {
   let sortByCharacterNameList = [];
   let sortByWeaponName = {};
   let sortByWeaponNameList = [];
+  let rank3 = [];
+  let rank4 = [];
+  let rank5 = [];
+  // sort the data by date first.
+
   for (const item of gachaLogs) {
     if (item.item_type === "Nhân Vật") {
       if (sortByCharacterName.hasOwnProperty(item.name)) {
@@ -25,7 +31,32 @@ const Charts = () => {
         sortByWeaponName[item.name] = 1;
       }
     }
+    switch (item.rank_type) {
+      case "3":
+        rank3.push(item);
+        break;
+      case "4":
+        rank4.push(item);
+        break;
+      case "5":
+        rank5.push({
+          sales: gachaLogs.length - gachaLogs.indexOf(item),
+          type: item.name,
+        });
+        break;
+      default:
+        break;
+    }
   }
+
+  Object.keys(rank5)
+    .reverse()
+    .forEach(function (index) {
+      let tmpPity = rank5[index].sales;
+      if (rank5[index - 1] !== undefined) {
+        rank5[index - 1].sales = rank5[index - 1].sales - tmpPity;
+      }
+    });
   for (const item in sortByCharacterName) {
     sortByCharacterNameList.push({
       type: item,
@@ -41,15 +72,33 @@ const Charts = () => {
   if (gachaLogs.length > 0) {
     return (
       <>
-        <Text>
-          Tổng số lượt quay: {totalGachaLogs} - Tương đương với{" "}
-          {totalGachaLogs * 160} Nguyên thạch
-        </Text>
+        <Row>
+          <Card
+            title="Thống Kê"
+            hoverable
+            // style={{ width: 240 }}
+            cover={
+              <>
+                <img
+                  alt="Noelle"
+                  src="https://images2.alphacoders.com/110/1109233.jpg"
+                  className="image-container"
+                />
+                <div className="image-centered">
+                  Tổng số lượt quay là {totalGachaLogs} - Tương ứng với{" "}
+                  {totalGachaLogs * 160} Nguyên Thạch
+                </div>
+              </>
+            }
+          ></Card>
+        </Row>
         <Row>
           <Col span={12}>
             <Card title="Tỷ lệ rớt đồ">
               <DemoRadar
-                gachaLogs={gachaLogs}
+                rank3={rank3}
+                rank4={rank4}
+                rank5={rank5}
                 totalGachaLogs={totalGachaLogs}
               ></DemoRadar>
             </Card>
@@ -74,7 +123,11 @@ const Charts = () => {
               ></ItemRateColumn>
             </Card>
           </Col>
-          <Col span={12}></Col>
+          <Col span={12}>
+            <Card title="Pity">
+              <ItemRateColumn data={rank5} color="yellow"></ItemRateColumn>
+            </Card>
+          </Col>
         </Row>
       </>
     );
@@ -83,25 +136,8 @@ const Charts = () => {
   }
 };
 
-const DemoRadar = ({ gachaLogs, totalGachaLogs }) => {
-  let rank3 = [];
-  let rank4 = [];
-  let rank5 = [];
-  for (const item of gachaLogs) {
-    switch (item.rank_type) {
-      case "3":
-        rank3.push(item);
-        break;
-      case "4":
-        rank4.push(item);
-        break;
-      case "5":
-        rank5.push(item);
-        break;
-      default:
-        break;
-    }
-  }
+const DemoRadar = ({ rank3, rank4, rank5, totalGachaLogs }) => {
+  console.log(rank5);
   var data = [
     {
       type: "Tỷ lệ đồ 3 sao",
@@ -125,11 +161,6 @@ const DemoRadar = ({ gachaLogs, totalGachaLogs }) => {
     label: {
       type: "inner",
       offset: "-30%",
-      //   content: function content(_ref) {
-      //     console.log(_ref);
-      //     var percent = _ref.percent;
-      //     return "".concat((percent * 100).toFixed(2), "%");
-      //   },
       style: {
         fontSize: 14,
         textAlign: "center",
@@ -166,7 +197,7 @@ const ItemRateColumn = ({ data, color }) => {
       fillOpacity: 0.5,
       stroke: "black",
       lineWidth: 1,
-      lineDash: [4, 5],
+      // lineDash: [4, 5],
       strokeOpacity: 0.7,
       shadowColor: "black",
       shadowBlur: 10,
