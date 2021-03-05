@@ -3,72 +3,53 @@ import { useStoreState } from "easy-peasy";
 import { Pie, Column } from "@ant-design/charts";
 import { Typography, Row, Col, Card } from "antd";
 
-const { Text } = Typography;
-
 const Charts = () => {
   const gachaLogs = useStoreState((state) => state.model.gachaLogs);
   const totalGachaLogs = gachaLogs.length;
-  let sortByCharacterName = {};
-  let sortByCharacterNameList = [];
-  let sortByWeaponName = {};
-  let sortByWeaponNameList = [];
-  let rank3 = [];
-  let rank4 = [];
-  let rank5 = [];
-  // sort the data by date first.
+  let itemByRank = {
+    5: [],
+    4: [],
+    3: [],
+  };
+  let itemByType = {};
+  let countPity = 0;
+  let itemByName =
+    // sort the data by date first.
+    Object.keys(gachaLogs)
+      .reverse()
+      .forEach((item) => {
+        countPity += 1;
+        switch (gachaLogs[item].rank_type) {
+          case "5":
+            itemByRank[5].push({
+              key: gachaLogs[item].name,
+              value: countPity,
+            });
+            countPity = 0;
+            break;
+          case "4":
+            itemByRank[4].push({
+              index: item,
+              value: gachaLogs[item],
+            });
+            break;
+          case "3":
+            itemByRank[3].push({
+              index: item,
+              value: gachaLogs[item],
+            });
+            break;
+          default:
+            break;
+        }
+        if (itemByType.hasOwnProperty(gachaLogs[item].item_type)) {
+          itemByType[gachaLogs[item].item_type].push(gachaLogs[item]);
+        } else {
+          itemByType[gachaLogs[item].item_type] = [];
+          itemByType[gachaLogs[item].item_type].push(gachaLogs[item]);
+        }
+      });
 
-  for (const item of gachaLogs) {
-    if (item.item_type === "Nhân Vật") {
-      if (sortByCharacterName.hasOwnProperty(item.name)) {
-        sortByCharacterName[item.name]++;
-      } else {
-        sortByCharacterName[item.name] = 1;
-      }
-    } else if (item.item_type === "Vũ Khí") {
-      if (sortByWeaponName.hasOwnProperty(item.name)) {
-        sortByWeaponName[item.name]++;
-      } else {
-        sortByWeaponName[item.name] = 1;
-      }
-    }
-    switch (item.rank_type) {
-      case "3":
-        rank3.push(item);
-        break;
-      case "4":
-        rank4.push(item);
-        break;
-      case "5":
-        rank5.push({
-          sales: gachaLogs.length - gachaLogs.indexOf(item),
-          type: item.name,
-        });
-        break;
-      default:
-        break;
-    }
-  }
-
-  Object.keys(rank5)
-    .reverse()
-    .forEach(function (index) {
-      let tmpPity = rank5[index].sales;
-      if (rank5[index - 1] !== undefined) {
-        rank5[index - 1].sales = rank5[index - 1].sales - tmpPity;
-      }
-    });
-  for (const item in sortByCharacterName) {
-    sortByCharacterNameList.push({
-      type: item,
-      sales: sortByCharacterName[item],
-    });
-  }
-  for (const item in sortByWeaponName) {
-    sortByWeaponNameList.push({
-      type: item,
-      sales: sortByWeaponName[item],
-    });
-  }
   if (gachaLogs.length > 0) {
     return (
       <>
@@ -96,18 +77,16 @@ const Charts = () => {
           <Col span={12}>
             <Card title="Tỷ lệ rớt đồ">
               <DemoRadar
-                rank3={rank3}
-                rank4={rank4}
-                rank5={rank5}
+                itemByRank={itemByRank}
                 totalGachaLogs={totalGachaLogs}
               ></DemoRadar>
             </Card>
           </Col>
           <Col span={12}>
             {" "}
-            <Card title="Tỷ lệ nhân vật">
+            <Card title="Số lượng vũ khí mỗi loại">
               <ItemRateColumn
-                data={sortByCharacterNameList}
+                data={itemByType[Object.keys(itemByType)[0]]}
                 color={"green"}
               ></ItemRateColumn>
             </Card>
@@ -116,16 +95,20 @@ const Charts = () => {
         <Row>
           <Col span={12}>
             {" "}
-            <Card title="Tỷ lệ vũ khí">
+            <Card title="Số lượng nhân vật mỗi loại">
               <ItemRateColumn
-                data={sortByWeaponNameList}
+                data={itemByType[Object.keys(itemByType)[1]]}
                 color={"red"}
               ></ItemRateColumn>
             </Card>
           </Col>
           <Col span={12}>
-            <Card title="Pity">
-              <ItemRateColumn data={rank5} color="yellow"></ItemRateColumn>
+            <Card title="Số lần quay để có được nhân vật 5 sao">
+              <ItemRateColumn
+                data={itemByRank[5]}
+                color="yellow"
+                needModify={false}
+              ></ItemRateColumn>
             </Card>
           </Col>
         </Row>
@@ -136,20 +119,19 @@ const Charts = () => {
   }
 };
 
-const DemoRadar = ({ rank3, rank4, rank5, totalGachaLogs }) => {
-  console.log(rank5);
+const DemoRadar = ({ itemByRank, totalGachaLogs }) => {
   var data = [
     {
       type: "Tỷ lệ đồ 3 sao",
-      value: rank3.length,
+      value: itemByRank[3].length,
     },
     {
       type: "Tỷ lệ đồ 4 sao",
-      value: rank4.length,
+      value: itemByRank[4].length,
     },
     {
       type: "Tỷ lệ đồ 5 sao",
-      value: rank5.length,
+      value: itemByRank[5].length,
     },
   ];
   var config = {
@@ -176,11 +158,29 @@ const DemoRadar = ({ rank3, rank4, rank5, totalGachaLogs }) => {
   }
 };
 
-const ItemRateColumn = ({ data, color }) => {
+const ItemRateColumn = ({ data, color, needModify = true }) => {
+  let finalData = [];
+  if (needModify) {
+    let tmp = {};
+
+    data.forEach((item) => {
+      tmp[item.name] = (tmp[item.name] || 0) + 1;
+    });
+
+    Object.keys(tmp).forEach((key) => {
+      finalData.push({
+        key: key,
+        value: tmp[key],
+      });
+    });
+  } else {
+    finalData = data;
+  }
+
   var config = {
-    data: data,
-    xField: "type",
-    yField: "sales",
+    data: finalData,
+    xField: "key",
+    yField: "value",
     label: {
       position: "middle",
       style: {
@@ -189,8 +189,8 @@ const ItemRateColumn = ({ data, color }) => {
       },
     },
     meta: {
-      type: { alias: "item" },
-      sales: { alias: "Số luợng" },
+      key: { alias: "item" },
+      value: { alias: needModify ? "Số luợng" : "Số lần" },
     },
     columnStyle: {
       fill: color,
